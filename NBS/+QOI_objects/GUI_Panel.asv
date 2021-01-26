@@ -1,0 +1,46 @@
+classdef GUI_Panel < handle % UI_Container
+    
+    properties %(Access = private)
+        figureHandle
+    end
+    
+    methods
+        function v = get.Data(obj)
+            v = obj.Table.Data;
+        end
+        function v = get.QOI_request(obj)
+            v = obj.Table.Data(:,1:4);
+        end
+    end
+    
+    methods% (Access = private)
+        function onDataChanged(obj,source,event)
+            obj.update();
+        end
+        
+        function update(obj)
+            
+            QOI_Container = obj.QOI_Container;
+            REQUESTED = ~QOI_Container.qoiFlat.is_default;    REQUESTEDedit = true;
+            QOINAME = QOI_Container.qoiFlat.qoiName;          QOINAMEedit = false;
+            SIDX = QOI_Container.qoiFlat.Sidx_str;            SIDXedit = true;
+            TIDX = QOI_Container.qoiFlat.Tidx_str;            TIDXedit = true;
+            DIMENSION = QOI_Container.qoiFlat.dimension_str;  DIMENSIONedit = false;
+            
+            obj.Table.Data =  [num2cell(REQUESTED)   ,QOINAME    ,SIDX    ,TIDX    ,DIMENSION];
+            obj.Table.ColumnName = {'Requested','QOI Name','Spatial Indices','Temporal Indices','Dimension of QOI'};
+            obj.Table.ColumnEditable = [REQUESTEDedit,QOINAMEedit,SIDXedit,TIDXedit,DIMENSIONedit];
+
+        end
+        
+    end
+    
+    methods
+        function delete(obj)
+            'GUIPanel_DeleteMethod'
+        end
+    end
+    
+    
+end
+
